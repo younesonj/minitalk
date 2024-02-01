@@ -1,62 +1,36 @@
 
-NAMEC = client
-NAMES = server
-BONUS_NAMEC = client_bonus
-BONUS_NAMES = server_bonus
-PRINTF = libftprintf.a
-SRCC_FILES =	client.c
-SRCS_FILES =	server.c
-BONUSC_FILES = client_bonus.c 
-BONUSS_FILES = server_bonus.c
-SRC_DIR = src/
-SRCC = $(addprefix $(SRC_DIR), $(SRCC_FILES))
-SRCS = $(addprefix $(SRC_DIR), $(SRCS_FILES))
-BONUSC = $(addprefix $(SRC_DIR), $(BONUSC_FILES))
-BONUSS = $(addprefix $(SRC_DIR), $(BONUSS_FILES))
-OBJC = ${SRCC:.c=.o}
-OBJS = ${SRCS:.c=.o}
-OBJBC = ${BONUSC:.c=.o}
-OBJBS = ${BONUSS:.c=.o}
-CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
-INCLUDE = -I include
-RM = rm -rf
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LIBRARY = libminitalk.a
+SRC = server.c client.c
+#SRCB = server_bonus.c client_bonus.c
+OBJ = $(SRC:.c=.o)
+#OBJB = $(SRCB:.c=.o)
+AR = ar rcs
 
-all:	$(NAMEC) $(NAMES)
+all: server client
 
-$(NAMEC) : $(OBJC)
-		@make -C printf
-		$(CC) $(CFLAGS) $(OBJC) $(INCLUDE) printf/$(PRINTF) -o $(NAMEC)
+server: server.c $(LIBRARY)
+	$(CC) $(CFLAGS) -o server server.c -L. -lminitalk -Lprintf -lftprintf
 
-$(NAMES) : $(OBJS)
-		@make -C printf
-		$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) printf/$(PRINTF) -o $(NAMES)
+client: client.c $(LIBRARY)
+	$(CC) $(CFLAGS) -o client client.c -L. -lminitalk -Lprintf -lftprintf
+ 
+$(LIBRARY): $(OBJ)
+	@cd printf && $(MAKE)
+	$(AR) $(LIBRARY) $(OBJ)
 
-bonus : $(BONUS_NAMEC) $(BONUS_NAMES)
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(BONUS_NAMEC) : $(OBJBC)
-				@make -C printf
-				$(CC) $(CFLAGS) $(OBJBC)  $(INCLUDE)  printf/$(PRINTF) -o $(BONUS_NAMEC)
+clean:
+	rm -f server client server_bonus client_bonus $(OBJ) $(OBJB)
+	@cd printf && $(MAKE) clean
 
-$(BONUS_NAMES) : $(OBJBS)
-				@make -C printf
-				$(CC) $(CFLAGS) $(OBJBS)  $(INCLUDE)  printf/$(PRINTF) -o $(BONUS_NAMES)
+fclean: clean
+	rm -f $(LIBRARY)
+	@cd printf && $(MAKE) fclean
 
-clean :
-		@make clean -C printf
-		${RM} ${OBJC}
-		${RM} ${OBJS}
-		${RM} ${OBJBC}
-		${RM} ${OBJBS}
+re: fclean all
 
-fclean : clean
-		@make fclean -C printf
-		${RM} $(NAMEC)
-		${RM} $(NAMES)
-		${RM} $(BONUS_NAMEC)
-		${RM} $(BONUS_NAMES)
-		${RM} $(PRINTF)
-
-re : fclean all
-
-.PHONY:		all bonus clean fclean re
+NAME: all

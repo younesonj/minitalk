@@ -5,6 +5,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
-#include "../printf/ft_printf.h"
+#include "./printf/ft_printf.h"
 
 #endif 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minitalk.h"
+#include "minitalk.h"
 
 int	ft_atoi(const char *str)
 {
@@ -43,11 +43,6 @@ void	ft_send(int pid, char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
-		i++;
-	str[i] = '\n';
-	str[i + 1] = '\0';
-	i = 0;
 	while (str[i] != '\0')
 	{
 		bit = 0;
@@ -64,10 +59,24 @@ void	ft_send(int pid, char *str)
 	}
 }
 
-void	ft_error(void)
+int str_is_digit(char *str)
 {
-	ft_printf("./client [server-pid] [message]\n");
-	exit(0);
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			j++;
+		i++;
+	}
+	if (i == j)
+		return (1);
+	else
+		return (0);
+	
 }
 
 int	main(int ac, char **av)
@@ -76,7 +85,12 @@ int	main(int ac, char **av)
 
 	i = 0;
 	if (ac != 3)
-		ft_error();
+	{
+		ft_printf("PLease enter : ./client [server-pid] [message]\n");
+		return(-1);
+	}
+	if (str_is_digit(av[1]) == 0)
+		return (-1);
 	ft_send(ft_atoi(av[1]), av[2]);
 	return (0);
 }

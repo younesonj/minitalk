@@ -1,4 +1,4 @@
-#include "../inc/minitalk.h"
+#include "minitalk.h"
 
 void	ft_handler(int sig)
 {
@@ -18,16 +18,10 @@ void	ft_handler(int sig)
 
 int	main(int argc, char **argv)
 {
-	int	pid;
-
 	(void)argv;
 	if (argc != 1)
-	{
-		ft_printf("Error\n");
 		return (1);
-	}
-	pid = getpid();
-	ft_printf("%d\n", pid);
+	ft_printf("%d\n", getpid());
 	while (argc == 1)
 	{
 		signal(SIGUSR1, ft_handler);
