@@ -29,9 +29,6 @@ client_bonus: client_bonus.c $(LIBRARY)
 	$(CC) $(CFLAGS) -o client_bonus client_bonus.c -L. -lminitalk -Lprintf -lftprintf
 
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 clean:
 	rm -f server client server_bonus client_bonus $(OBJ) $(OBJB)
 	@cd printf && $(MAKE) clean
@@ -42,4 +39,4 @@ fclean: clean
 
 re: fclean all
 
-NAME: all
+.PHONY : all clean fclean re
