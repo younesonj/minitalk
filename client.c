@@ -81,9 +81,6 @@ int str_is_digit(char *str)
 
 int	main(int ac, char **av)
 {
-	int	i;
-
-	i = 0;
 	if (ac != 3)
 	{
 		ft_printf("PLease enter : ./client [server-pid] [message]\n");
