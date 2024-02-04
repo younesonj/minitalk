@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: younajja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 09:25:33 by younajja          #+#    #+#             */
+/*   Updated: 2024/02/04 09:27:14 by younajja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 int	ft_atoi(const char *str)
 {
@@ -40,13 +51,12 @@ void	ft_send(int pid, char c)
 		usleep(500);
 		bit++;
 	}
-
 }
 
-int str_is_digit(char *str)
+int	str_is_digit(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = 0;
@@ -60,14 +70,13 @@ int str_is_digit(char *str)
 		return (1);
 	else
 		return (0);
-	
 }
 
-void	ft_confirmation(int	sig)
+void	ft_confirmation(int sig)
 {
 	if (sig == SIGUSR1)
 	{
-		ft_printf("the message was received\n");
+		ft_printf(">>>>>>> The message was received successfully <<<<<<<<<\n");
 		exit(1);
 	}
 	if (sig == SIGUSR2)
@@ -76,13 +85,13 @@ void	ft_confirmation(int	sig)
 
 int	main(int ac, char **av)
 {
-	int i;
+	int	i;
 
-	i = 0 ;
+	i = 0;
 	if (ac != 3)
 	{
 		ft_printf("PLease enter : ./client [server-pid] [message]\n");
-		return(-1);
+		return (-1);
 	}
 	if (str_is_digit(av[1]) == 0)
 		return (-1);
@@ -98,6 +107,5 @@ int	main(int ac, char **av)
 	{
 		pause();
 	}
-	
 	return (0);
 }

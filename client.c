@@ -6,7 +6,7 @@
 /*   By: younajja <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 05:10:45 by younajja          #+#    #+#             */
-/*   Updated: 2024/01/31 05:14:12 by younajja         ###   ########.fr       */
+/*   Updated: 2024/02/04 09:28:18 by younajja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	ft_send(int pid, char *str)
 	}
 }
 
-int str_is_digit(char *str)
+int	str_is_digit(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = 0;
@@ -76,7 +76,6 @@ int str_is_digit(char *str)
 		return (1);
 	else
 		return (0);
-	
 }
 
 int	main(int ac, char **av)
@@ -84,7 +83,7 @@ int	main(int ac, char **av)
 	if (ac != 3)
 	{
 		ft_printf("PLease enter : ./client [server-pid] [message]\n");
-		return(-1);
+		return (-1);
 	}
 	if (str_is_digit(av[1]) == 0)
 		return (-1);
