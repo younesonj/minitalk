@@ -47,7 +47,6 @@ int	main(int argc, char **argv)
 	{
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
-		pause ();
 	}
 	return (0);
 }

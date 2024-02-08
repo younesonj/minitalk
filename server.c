@@ -38,7 +38,6 @@ int	main(int argc, char **argv)
 	{
 		signal(SIGUSR1, ft_handler);
 		signal(SIGUSR2, ft_handler);
-		pause ();
 	}
 	return (0);
 }
