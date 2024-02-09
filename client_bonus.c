@@ -45,12 +45,34 @@ void	ft_send(int pid, char c)
 	while (bit < 8)
 	{
 		if ((c & (1 << bit)) != 0)
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1) == -1)
+			{
+				ft_printf("ERROR!\n");
+				exit(1);
+			}
+		}
 		else
-			kill(pid, SIGUSR2);
-		usleep(500);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+			{
+				ft_printf("ERROR!\n");
+				exit(1);
+			}
+		}
+		usleep(300);
 		bit++;
 	}
+}
+
+void	ft_confirmation(int sig)
+{
+	if (sig == SIGUSR1)
+	{
+		ft_printf(">>>>>>> The message was received successfully <<<<<<<<<\n");
+		exit(0);
+	}
+	exit(1);
 }
 
 int	str_is_digit(char *str)
@@ -72,17 +94,6 @@ int	str_is_digit(char *str)
 		return (0);
 }
 
-void	ft_confirmation(int sig)
-{
-	if (sig == SIGUSR1)
-	{
-		ft_printf(">>>>>>> The message was received successfully <<<<<<<<<\n");
-		exit(1);
-	}
-	if (sig == SIGUSR2)
-		exit(0);
-}
-
 int	main(int ac, char **av)
 {
 	int	i;
@@ -91,10 +102,10 @@ int	main(int ac, char **av)
 	if (ac != 3)
 	{
 		ft_printf("PLease enter : ./client [server-pid] [message]\n");
-		return (-1);
+		return (1);
 	}
 	if (str_is_digit(av[1]) == 0)
-		return (-1);
+		return (1);
 	signal(SIGUSR1, ft_confirmation);
 	signal(SIGUSR2, ft_confirmation);
 	while (av[2][i])
@@ -105,7 +116,8 @@ int	main(int ac, char **av)
 	ft_send(ft_atoi(av[1]), '\0');
 	while (1)
 	{
-		pause();
+		signal(SIGUSR1, ft_confirmation);
+		signal(SIGUSR2, ft_confirmation);
 	}
 	return (0);
 }

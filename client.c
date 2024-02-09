@@ -49,10 +49,16 @@ void	ft_send(int pid, char *str)
 		while (bit < 8)
 		{
 			if ((str[i] & (1 << bit)) != 0)
-				kill(pid, SIGUSR1);
+			{
+				if (kill(pid, SIGUSR1) == -1)
+					exit(1);
+			}
 			else
-				kill(pid, SIGUSR2);
-			usleep(500);
+			{
+				if (kill(pid, SIGUSR2) == -1)
+					exit(1);
+			}
+			usleep(300);
 			bit++;
 		}
 		i++;
@@ -83,10 +89,10 @@ int	main(int ac, char **av)
 	if (ac != 3)
 	{
 		ft_printf("PLease enter : ./client [server-pid] [message]\n");
-		return (-1);
+		return (1);
 	}
 	if (str_is_digit(av[1]) == 0)
-		return (-1);
+		return (1);
 	ft_send(ft_atoi(av[1]), av[2]);
 	return (0);
 }
