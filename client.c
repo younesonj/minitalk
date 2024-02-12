@@ -37,6 +37,12 @@ int	ft_atoi(const char *str)
 	return (res * neg);
 }
 
+void	ft_exit(void)
+{
+	ft_printf("ERROR!\n");
+	exit(1);
+}
+
 void	ft_send(int pid, char *str)
 {
 	int	bit;
@@ -51,12 +57,12 @@ void	ft_send(int pid, char *str)
 			if ((str[i] & (1 << bit)) != 0)
 			{
 				if (kill(pid, SIGUSR1) == -1)
-					exit(1);
+					ft_exit();
 			}
 			else
 			{
 				if (kill(pid, SIGUSR2) == -1)
-					exit(1);
+					ft_exit();
 			}
 			usleep(300);
 			bit++;
