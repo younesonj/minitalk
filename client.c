@@ -98,7 +98,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (str_is_digit(av[1]) == 0)
-		return (1);
+		ft_exit();
 	ft_send(ft_atoi(av[1]), av[2]);
 	return (0);
 }
